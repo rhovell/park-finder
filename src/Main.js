@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import ParkMap from './map'
-import Menu from './MenuButton'
+import Parks from './parkData'
+import MenuButton from './MenuButton'
 
 
 class Main extends Component {
@@ -19,10 +20,14 @@ class Main extends Component {
           </div>
         </div>
 
-        <Menu />
+        <MenuButton />
 
         <div className="map-container">
         <ParkMap />
+        </div>
+
+        <div className="park-data">
+        <Parks />
         </div>
       </div>
   )
