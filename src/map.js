@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
-import GoogleMapReact from 'google-map-react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import Parks from './parks';
+import * as parkData from './parkData'
 
 export class MapContainer extends Component {
   state = {
   showingInfoWindow: false,
   activeMarker: {},
   selectedPlace: {},
-  };
-
-  fetchPlaces = (mapProps, map) => {
-    const {google} = mapProps;
-    const service = new google.maps.places.PlacesService(map);
-  };
+  }
 
   onMarkerClick = (props, marker, e) => {
     this.setState({
@@ -20,6 +16,8 @@ export class MapContainer extends Component {
       activeMarker: marker,
       showingInfoWindow: true
     });
+    this.componentDidMount();
+    console.log(this.state.selectedPlace)
   };
 
   onMapClicked = (props) => {
@@ -48,24 +46,41 @@ export class MapContainer extends Component {
           }}
           zoom={12}
           onClick={this.onMapClicked}
-          visible={true}>
+          visible={true}
+          >
 
 
           <Marker
             title={'Alexandra Park'}
             name={'Alexandra Park'}
-            onClick={this.onMarkerClick}
-            position={{lat: 53.399576, lng: -2.17249}} />
+            position={{lat: 53.45094, lng: -2.24502}}
+            info={[]}
+            onClick={this.onMarkerClick} />
           <Marker
             title={'Heaton Moor Park'}
             name={'Heaton Moor Park'}
-            onClick={this.onMarkerClick}
-            position={{lat: 53.425912, lng: -2.185507}} />
+            position={{lat: 53.425912, lng: -2.185507}}
+            onClick={this.onMarkerClick} />
           <Marker
             name={'Mersey Vale Nature Park'}
             title={'Mersey Vale Nature Park'}
-            onClick={this.onMarkerClick}
-            position={{lat: 53.407278, lng: -2.194373}} />
+            address={'Stockport, SK4 3EA'}
+            onClick={this.onMarkerClick} />
+          <Marker
+            name={'Abney Hall Park'}
+            title={'Abney Hall Park'}
+            position={{lat: 53.398543, lng: -2.21045}}
+            onClick={this.onMarkerClick} />
+          <Marker
+            name={'Reddish Vale Country Park'}
+            title={'Reddish Vale Country Park'}
+            position={{lat: 53.437132, lng: -2.146727}}
+            onClick={this.onMarkerClick} />
+          <Marker
+            name={'Woodbank Park'}
+            title={'Woodbank Park'}
+            position={{lat: 53.410599, lng: -2.141143}}
+            onClick={this.onMarkerClick} />
           <Marker />
 
           <InfoWindow
@@ -74,7 +89,8 @@ export class MapContainer extends Component {
             onOpen={this.windowHasOpened}
             onClose={this.windowHasClosed}>
               <div>
-                <h1>{this.state.selectedPlace.name}</h1>
+                <h3>{this.state.selectedPlace.name}</h3>
+                <div className="address">{this.state.selectedPlace.address}</div>
               </div>
           </InfoWindow>
 
@@ -84,10 +100,10 @@ export class MapContainer extends Component {
 }
 // AIzaSyCGfD8d1_EdM3fJANZ275OOsBAfIKWLqkw
 export default GoogleApiWrapper({
-  apiKey: ('AIzaSyCGfD8d1_EdM3fJANZ275OOsBAfIKWLqkw')
+  apiKey: ('AIzaSyCGfD8d1_EdM3fJANZ275OOsBAfIKWLqkw&libraries=places')
 })(MapContainer);
 
 const style = {
   width: '100%',
-  height: '100%'
+  height: '60%'
 };
