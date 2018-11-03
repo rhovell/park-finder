@@ -17,17 +17,17 @@ const Menu = ({ parks }) => {
       <div className="park-container">
         <ul className="park-list">
         {parks.map(park => (
-                        <li key={park.id}>
-                        <div className="park-title">{park.title}</div>
-                        <div className="park-data">
-                        <div className="park-address">{park.vicinity}</div>
+            <li key={park.id}>
+            <div className="park-title">{park.title}</div>
+            <div className="park-data">
+            <div className="park-address">{park.vicinity}</div>
 
 
-                        </div>
-                        </li>
-                        ))
-                      }
-                    </ul>
+            </div>
+            </li>
+            ))
+          }
+        </ul>
       </div>
     </div>
   )
