@@ -103,7 +103,15 @@ ul.menu-content {
 li.menu-content {
 
 }
-
+ul.park-list {
+  list-style: none;
+  text-decoration: underline;
+  cursor: pointer;
+  line-height: 16px;
+}
+.park-data {
+  display: none;
+}
 /* map */
 .map-container {
   padding-bottom: 5px;
