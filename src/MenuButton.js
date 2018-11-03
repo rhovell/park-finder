@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Search from './Search'
+import * as Parks from './parks'
+import Menu from './Menu'
 
 
 class MenuButton extends Component {
@@ -10,6 +12,7 @@ class MenuButton extends Component {
     this.hideMenu = this.hideMenu.bind(this);
     this.state = { hidden: true };
   }
+
 
   showMenu = () => {
       this.setState({ hidden: false })
@@ -29,7 +32,8 @@ class MenuButton extends Component {
       menu;
     } else {
       button = <HideButton onClick={this.hideMenu} />;
-      menu = <Menu />
+      menu = <Menu
+      parks={this.props.parks}/>;
     };
 
     return (
@@ -43,15 +47,6 @@ class MenuButton extends Component {
 
 };
 
-function Menu(props) {
-  return (
-    <div className="menu-container">
-    <div className="search-container">
-    <Search />
-    </div>
-    </div>
-  )
-};
 
 function ShowButton(props) {
 return (
