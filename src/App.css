@@ -74,7 +74,7 @@ h1 {
   margin-top: 0;
 }
 
-.menu-container {
+.menu.open {
   position: absolute;
   left: 0;
   width: 40%;
@@ -107,9 +107,18 @@ ul.park-list {
   list-style: none;
   text-decoration: underline;
   cursor: pointer;
-  line-height: 16px;
+  line-height: 26px;
 }
 .park-data {
+  display: none;
+}
+.information {
+  /* width: 50%; */
+}
+.address {
+  max-width: 120px;
+}
+.address-menu {
   display: none;
 }
 /* map */
