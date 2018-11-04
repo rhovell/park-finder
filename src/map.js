@@ -15,7 +15,7 @@ export class MapContainer extends Component {
       activeMarker: marker,
       showingInfoWindow: true
     });
-
+    this.windowHasOpened(props);
     console.log(this.state.selectedPlace)
   };
 
@@ -35,8 +35,14 @@ export class MapContainer extends Component {
       return {lat: lat ,lng: lang};
   };
 
-  windowHasOpened = (props) => {
+  getAddress = (address) => {
+    var address = address.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '\n');
+    // console.log(address)
+    return address;
+  }
 
+  windowHasOpened = (props) => {
+    
   };
   windowHasClosed = (props) => {
 
@@ -57,30 +63,33 @@ export class MapContainer extends Component {
           >
 
           {this.props.parks.map(park => (
-            <Marker
+          <Marker
             key={park.id}
             title={park.title}
+            id={[park.title, park.id]}
             position={this.getPosition(park.position)}
             onClick={this.onMarkerClick}
+            vicinity={this.getAddress(park.vicinity)}
             />
           ))
         }
-        {this.props.parks.map(park => (
-          <div key={park.id}
-          className="pop-up">
-          <InfoWindow
 
+          <InfoWindow
+            key={this.state.activeMarker.title}
             marker={this.state.activeMarker}
             visible={this.state.showingInfoWindow}
             onOpen={this.windowHasOpened}
             onClose={this.windowHasClosed}
-            title={park.title}
-          />
-
-          <div className="info-title">{park.title}</div>
+            title={this.state.selectedPlace.title}
+            id={this.state.selectedPlace.id}>
+          <div
+            key={this.state.selectedPlace.id}
+            className={this.state.selectedPlace.title, 'information'}>
+          <h3 className="info-title">{this.state.selectedPlace.title}</h3>
+          <div className="address">{this.state.selectedPlace.vicinity}</div>
           </div>
-          ))
-        }
+          </InfoWindow>
+
       </Map>
     );
   }
