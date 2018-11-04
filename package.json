@@ -3,6 +3,7 @@
     "create-react-app": "^1.5.2",
     "google-map-react": "^1.0.9",
     "google-maps-react": "^2.0.2",
+    "lodash.debounce": "^4.0.8",
     "prop-types": "^15.6.1",
     "react": "^16.5.0",
     "react-dom": "^16.5.2",
