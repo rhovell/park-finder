@@ -2,12 +2,17 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import * as Parks from './parks'
 import debounce from 'lodash.debounce'
+import * as Octopus from './Octopus'
 
-
-class Search extends Component {
-  state = {
-      searchResults: []
+class Search extends React.Component {
+constructor(props) {
+  super(props);
+  this.state = {
+    searchResults: [],
+    selectedPlace: {}
   }
+}
+
   componentWillMount = () => {
      this.delayedCallback = debounce(function (event) {
        this.updateResults(event.target.value);
@@ -22,12 +27,12 @@ class Search extends Component {
     Parks.get(query).then((searchQuery) => {
       this.setState({ searchResults : searchQuery.results.items })
     }).then(() => {
-      for(var result of this.state.searchResults){
-        function isPark(result) {
-          return result.category.id === 'recreation';
+        for(var result of this.state.searchResults){
+          function isPark(result) {
+            return result.category.id === 'recreation';
+          }
+          var filtered = this.state.searchResults.filter(isPark);
         }
-        var filtered = this.state.searchResults.filter(isPark);
-      }
         this.setState({ searchResults: filtered })
         console.log(this.state.searchResults)
     }).catch((error) => {
@@ -35,6 +40,7 @@ class Search extends Component {
         console.log('Error on search request')
         })
   }
+
   render() {
     const searchResults = this.state;
     return (

@@ -1,12 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
-import * as Parks from './parks'
 
-export class MapContainer extends Component {
-  state = {
-  showingInfoWindow: false,
-  activeMarker: {},
-  selectedPlace: {},
+class GoogleMapsContainer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showingInfoWindow: false,
+      activeMarker: {},
+      selectedPlace: {}
+    }
+    // binding this to event-handler functions
+    this.onMarkerClick = this.onMarkerClick.bind(this);
+    this.onMapClick = this.onMapClick.bind(this);
   }
 
   onMarkerClick = (props, marker, e) => {
@@ -16,17 +21,17 @@ export class MapContainer extends Component {
       showingInfoWindow: true
     });
     this.windowHasOpened(props);
-    console.log(this.state.selectedPlace)
+    console.log(this.state.activeMarker)
   };
 
-  onMapClicked = (props) => {
-    if (this.state.showingInfoWindow) {
-      this.setState({
-        showingInfoWindow: false,
-        activeMarker: null
-      })
-    }
-  };
+  onMapClick = (props) => {
+     if (this.state.showingInfoWindow) {
+       this.setState({
+         showingInfoWindow: false,
+         activeMarker: null
+       });
+     }
+   }
 
   getPosition = (position) => {
       var iterator = position.values();
@@ -36,19 +41,34 @@ export class MapContainer extends Component {
   };
 
   getAddress = (address) => {
-    var address = address.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '\n');
+    var formatAddress = address.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '\n');
     // console.log(address)
-    return address;
+    return formatAddress;
   }
 
   windowHasOpened = (props) => {
-    
+    console.log(props)
   };
   windowHasClosed = (props) => {
 
   };
 
+componentDidUpdate(nextProps, prevProps) {
+  // console.log(prevProps)
+  console.log(nextProps)
+  console.log(this.state.activeMarker)
+  let selectMarker = nextProps;
+  let previous = prevProps
+   if (this.props.choosen !== selectMarker.choosen) {
+     this.setState({ activeMarker : selectMarker })
+     console.log(this.state.activeMarker)
+  }
+}
+
+
+
   render() {
+
     return (
       <Map google={this.props.google}
           style={style}
@@ -57,34 +77,42 @@ export class MapContainer extends Component {
             lng: -2.157533
           }}
           zoom={12}
-          onClick={this.onMapClicked}
+          onClick = { this.onMapClick }
           visible={true}
           parks={this.props.parks}
+          changePlace={this.props.onPlaceChange}
+          choosen={this.props.choosen}
           >
 
           {this.props.parks.map(park => (
           <Marker
             key={park.id}
+            choosen={this.props.choosen}
             title={park.title}
-            id={[park.title, park.id]}
+            id={park.title}
             position={this.getPosition(park.position)}
             onClick={this.onMarkerClick}
             vicinity={this.getAddress(park.vicinity)}
+            className={"marker "+park.title}
+            changePlace={this.props.onPlaceChange}
             />
           ))
         }
 
           <InfoWindow
-            key={this.state.activeMarker.title}
+            key={this.props.parks.title}
+            choosen={this.props.choosen}
             marker={this.state.activeMarker}
             visible={this.state.showingInfoWindow}
             onOpen={this.windowHasOpened}
             onClose={this.windowHasClosed}
             title={this.state.selectedPlace.title}
-            id={this.state.selectedPlace.id}>
+            id={this.state.selectedPlace.id}
+            changePlace={this.props.onPlaceChange}
+            >
           <div
             key={this.state.selectedPlace.id}
-            className={this.state.selectedPlace.title, 'information'}>
+            className={this.state.selectedPlace.title+' information'}>
           <h3 className="info-title">{this.state.selectedPlace.title}</h3>
           <div className="address">{this.state.selectedPlace.vicinity}</div>
           </div>
@@ -97,9 +125,12 @@ export class MapContainer extends Component {
 // AIzaSyCGfD8d1_EdM3fJANZ275OOsBAfIKWLqkw
 export default GoogleApiWrapper({
   apiKey: ('AIzaSyCGfD8d1_EdM3fJANZ275OOsBAfIKWLqkw&libraries=places')
-})(MapContainer);
+})(GoogleMapsContainer);
 
 const style = {
-  width: '100%',
-  height: '60%'
+  width: '90vw',
+  height: '90vh',
+  'marginTop': '1em',
+  'marginLeft': 'auto',
+  'marginRight': 'auto'
 };

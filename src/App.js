@@ -11,7 +11,6 @@ class App extends Component {
   componentDidMount() {
   Parks.getAll().then((parks) => {
     this.setState({ parks : parks.results.items })
-    console.log(this.state.parks)
   })
 }
   render() {

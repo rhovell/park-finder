@@ -1,12 +1,25 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import ParkMap from './map'
-import * as Parks from './parks'
 import Menu from './Menu'
+import Filter from './Filter'
 
-class Main extends Component {
+class Main extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handlePlaceChange = this.handlePlaceChange.bind(this);
+    this.state = {
+      hidden: true,
+      selectedPlace: ''
+    };
+  }
+
+  handlePlaceChange(choosen) {
+    this.setState({selectedPlace: choosen });
+  }
+
   render() {
+    const choosen = this.state.selectedPlace;
     return (
       <div className="park-map-app">
         <div className="app-title">
@@ -20,12 +33,24 @@ class Main extends Component {
         </div>
 
 
+        <Filter
+        parks={this.props.parks}
+        onPlaceChange={this.handlePlaceChange}
+        selectedPlace={choosen}
+        />
+
         <Menu
-        parks={this.props.parks}/>
+        parks={this.props.parks}
+        onPlaceChange={this.handlePlaceChange}
+        selectedPlace={choosen}
+        />
 
         <div className="map-container">
         <ParkMap
-        parks={this.props.parks}/>
+        parks={this.props.parks}
+        onPlaceChange={this.handlePlaceChange}
+        choosen={choosen}
+        />
         </div>
 
 
