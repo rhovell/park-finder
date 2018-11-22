@@ -13,8 +13,8 @@ class Filter extends React.Component {
     // on select value change, setState of select 'value : event.target.value'
 
     handleChange(event) {
-      console.log(event.target.value)
       this.setState({ value: event.target.value })
+      console.log('selected filter option is ' + this.state.value)
 
     }
 
@@ -30,7 +30,7 @@ class Filter extends React.Component {
     }
 
     componentDidUpdate(nextProps, prevProps){
-      console.log(nextProps, prevProps, this.props)
+      // console.log(nextProps, prevProps, this.props)
     }
 
     render() {

@@ -12,6 +12,7 @@ class Main extends React.Component {
     this.onMapClick = this.onMapClick.bind(this);
     // this.performMarkerClick = this.performMarkerClick.bind(this);
     // this.handleChange = this.handleChange.bind(this);
+    this.setPark = this.setPark.bind(this);
     this.state = {
       hidden: true,
       showingInfoWindow: false,
@@ -23,32 +24,38 @@ class Main extends React.Component {
   }
   // called after filter's state value updates
   // sets mother state 'selectedPlace : filters.state.value'
-  handlePlaceChange(props, marker, event) {
-    // console.log(this.props, marker, event)
+  handlePlaceChange(props, marker, e) {
+    console.log(props, marker, e)
       this.setState({
-        selectedPlace: marker.park,
+        selectedPlace: props,
         activeMarker: marker,
         showingInfoWindow: true,
         value: props.title,
         animation: 4
       });
-    console.log('Selected Place is ' + this.state.selectedPlace);
+    console.log('App selected park is ' + this.state.selectedPlace);
+    console.log(this)
   }
 
   setPark(park){
-    console.log(park)
+    // console.log(park)
     let marker;
+    this.setState({ selectedPlace: park })
+    console.log('App selected park is ' + this.state.selectedPlace);
 
-    // this.handlePlaceChange(park, marker, event)
+  }
+
+  componentDidUpdate(prevProps, nextProps){
+    // console.log(prevProps, nextProps)
   }
 
   onMapClick = (props) => {
-     if (this.state.showingInfoWindow) {
+     if (this.state.showingInfoWindow === true) {
        this.setState({
          showingInfoWindow: false,
          activeMarker: null,
          animation: null,
-         selectedPlace: null
+         selectedPlace: {}
        });
      }
    }
@@ -92,7 +99,8 @@ class Main extends React.Component {
         setValue={this.setValue}
         animation={this.state.animation}
         setPark={this.setPark}
-        handlePlaceChange={this.handlePlaceChange}
+        // handlePlaceChange={this.handlePlaceChange}
+        handleChange={this.handleChange}
         />
 
         <Menu
@@ -123,6 +131,8 @@ class Main extends React.Component {
         animation={this.state.animation}
         getPosition={this.getPosition}
         getAddress={this.getAddress}
+        onMapClick={this.onMapClick}
+        setPark={this.setPark}
         />
         </div>
 
