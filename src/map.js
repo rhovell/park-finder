@@ -66,9 +66,9 @@ class GoogleMapsContainer extends React.Component {
             }
 
           <InfoWindow
-            key={this.props.choosen.title ? this.props.choosen.title : ''}
-            title={this.props.choosen.title ? this.props.choosen.title : ''}
-            id={this.props.choosen.id ? this.props.choosen.id : ''}
+            key={this.props.choosen.title}
+            title={this.props.choosen.title}
+            id={this.props.choosen.id}
             // position={this.props.getPosition(this.props.choosen.position)}
             // vicinity={this.props.getAddress(this.props.choosen.vicinity)}
             onOpen={this.windowHasOpened}

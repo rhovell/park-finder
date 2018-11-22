@@ -34,14 +34,20 @@ class Main extends React.Component {
         animation: 4
       });
     console.log('App selected park is ' + this.state.selectedPlace);
-    console.log(this)
   }
 
   setPark(park){
     // console.log(park)
     let marker;
-    this.setState({ selectedPlace: park })
+    this.setState({
+      selectedPlace: park,
+      value: park.title,
+      animation: 4,
+     })
     console.log('App selected park is ' + this.state.selectedPlace);
+    let root = document.getElementById('root');
+    let map = root.getElementsByClassName('Marker')
+    console.log(map)
 
   }
 
@@ -55,7 +61,8 @@ class Main extends React.Component {
          showingInfoWindow: false,
          activeMarker: null,
          animation: null,
-         selectedPlace: {}
+         selectedPlace: {},
+         value: ''
        });
      }
    }
@@ -104,6 +111,7 @@ class Main extends React.Component {
         />
 
         <Menu
+        setPark={this.setPark}
         parks={this.props.parks}
         performMarkerClick={this.performMarkerClick}
         onPlaceChange={this.handlePlaceChange}

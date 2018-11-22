@@ -5,9 +5,9 @@ class Menu extends React.Component {
     super(props);
     this.showMenu = this.showMenu.bind(this);
     this.hideMenu = this.hideMenu.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
     this.state = {
       hidden: true,
-      selected: {}
     };
   }
 
@@ -19,6 +19,16 @@ class Menu extends React.Component {
         this.setState({ hidden: true })
     };
 
+    handleSelect = (event) => {
+      console.log(this)
+      console.log(event.target.innerHTML)
+      for(var park of this.props.parks){
+        if(event.target.innerHTML === park.title){
+          console.log(park)
+          this.props.setPark(park);
+        }
+      }
+    }
 
     render() {
     const menuHidden = this.state.hidden;
@@ -37,7 +47,8 @@ class Menu extends React.Component {
                       <li
                         key={park.id}
                         park={park}
-                        onClick={this.performMarkerClick}
+                        onClick={this.handleSelect}
+                        value={park.title}
                         className={this.props.selectedPlace === park.title ? "park-title selected" : "park-title"}
                         >{park.title}
                       </li>
