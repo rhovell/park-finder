@@ -7,11 +7,11 @@ import Filter from './Filter'
 class Main extends React.Component {
   constructor(props) {
     super(props);
+    // binding this to event-handler functions
     this.handlePlaceChange = this.handlePlaceChange.bind(this);
     this.onMapClick = this.onMapClick.bind(this);
     this.setPark = this.setPark.bind(this);
     this.state = {
-      hidden: true,
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
@@ -19,9 +19,8 @@ class Main extends React.Component {
       animation: null
     };
   }
-  // called on marker click
+  // on marker click
   handlePlaceChange(props, marker, e) {
-    console.log(props, marker, e)
       this.setState({
         selectedPlace: props,
         activeMarker: marker,
@@ -31,7 +30,7 @@ class Main extends React.Component {
       });
     console.log('App selected park is ' + this.state.selectedPlace);
   }
-  // called on filter select submit
+  // called on filter select submit and list view selection
   setPark(park){
     let marker;
     this.setState({
@@ -43,9 +42,9 @@ class Main extends React.Component {
   }
 
   componentDidUpdate(prevProps, nextProps){
-    console.log(this.state.selectedPlace)
+    // console.log(this.state.selectedPlace)
   }
-
+  // clear selectedPlace and activeMarker on map click
   onMapClick = (props) => {
      if (this.state.showingInfoWindow === true) {
        this.setState({

@@ -2,13 +2,14 @@ import React from 'react'
 
 class Filter extends React.Component {
   constructor(props) {
-      super(props);
-      // this.setPark = this.setPark.bind(this);
-      this.handleChange = this.handleChange.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
-      this.state = {
-        value: '',
-         };
+    super(props);
+    // binding this to event-handler functions
+    // this.setPark = this.setPark.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = {
+      value: '',
+       };
     }
     // on select value change, setState of select 'value : event.target.value'
     handleChange(event) {
@@ -27,7 +28,7 @@ class Filter extends React.Component {
     }
 
     componentDidUpdate(nextProps, prevProps){
-      console.log(nextProps, prevProps, this.props)
+      // console.log(nextProps, prevProps, this.props)
     }
 
     render() {
@@ -35,7 +36,7 @@ class Filter extends React.Component {
       return (
         <form className="filter-results" onSubmit={this.handleSubmit}>
           <label>
-            Filter Parks
+            Select Park
             <select
             onChange={ this.handleChange }
             parks={this.props.parks}
@@ -55,7 +56,7 @@ class Filter extends React.Component {
               ))
               }
           </select>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Select" />
           </label>
         </form>
       );

@@ -3,6 +3,7 @@ import React from 'react'
 class Menu extends React.Component {
   constructor(props) {
     super(props);
+    // binding this to event-handler functions
     this.showMenu = this.showMenu.bind(this);
     this.hideMenu = this.hideMenu.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -18,7 +19,7 @@ class Menu extends React.Component {
     hideMenu = () => {
         this.setState({ hidden: true })
     };
-    // called on list item click
+    // on list item click, find the matching park and pass it to props.setPark
     handleSelect = (event) => {
       for(var park of this.props.parks){
         if(event.target.innerHTML === park.title){
@@ -26,6 +27,7 @@ class Menu extends React.Component {
           this.props.setPark(park);
         }
       }
+      this.hideMenu()
     }
 
     render() {
