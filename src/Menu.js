@@ -7,6 +7,7 @@ class Menu extends React.Component {
     this.hideMenu = this.hideMenu.bind(this);
     this.state = {
       hidden: true,
+      selected: {}
     };
   }
 
@@ -17,6 +18,7 @@ class Menu extends React.Component {
     hideMenu = () => {
         this.setState({ hidden: true })
     };
+
 
     render() {
     const menuHidden = this.state.hidden;
@@ -32,10 +34,12 @@ class Menu extends React.Component {
               <div className="park-container">
                 <ul className="park-list">
                   {this.props.parks.map(park => (
-                      <li key={park.id}>
-                      <div className="park-title">{park.title}</div>
-                      <div className="park-data">
-                      </div>
+                      <li
+                        key={park.id}
+                        park={park}
+                        onClick={this.performMarkerClick}
+                        className={this.props.selectedPlace === park.title ? "park-title selected" : "park-title"}
+                        >{park.title}
                       </li>
                       ))
                     }

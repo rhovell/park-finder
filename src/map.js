@@ -5,70 +5,20 @@ class GoogleMapsContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showingInfoWindow: false,
-      activeMarker: {},
-      selectedPlace: {}
+      value: {},
+      animation: null
     }
     // binding this to event-handler functions
     this.onMarkerClick = this.onMarkerClick.bind(this);
-    this.onMapClick = this.onMapClick.bind(this);
   }
 
   onMarkerClick = (props, marker, e) => {
-    this.setState({
-      selectedPlace: props,
-      activeMarker: marker,
-      showingInfoWindow: true
-    });
-    this.windowHasOpened(props);
-    console.log(this.state.activeMarker)
+    console.log(marker)
+    this.props.onPlaceChange(props, marker, e)
   };
-
-  onMapClick = (props) => {
-     if (this.state.showingInfoWindow) {
-       this.setState({
-         showingInfoWindow: false,
-         activeMarker: null
-       });
-     }
-   }
-
-  getPosition = (position) => {
-      var iterator = position.values();
-      let lat = iterator.next().value;
-      let lang = iterator.next().value;
-      return {lat: lat ,lng: lang};
-  };
-
-  getAddress = (address) => {
-    var formatAddress = address.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '\n');
-    // console.log(address)
-    return formatAddress;
-  }
-
-  windowHasOpened = (props) => {
-    console.log(props)
-  };
-  windowHasClosed = (props) => {
-
-  };
-
-componentDidUpdate(nextProps, prevProps) {
-  // console.log(prevProps)
-  console.log(nextProps)
-  console.log(this.state.activeMarker)
-  let selectMarker = nextProps;
-  let previous = prevProps
-   if (this.props.choosen !== selectMarker.choosen) {
-     this.setState({ activeMarker : selectMarker })
-     console.log(this.state.activeMarker)
-  }
-}
-
-
 
   render() {
-
+    const selectMarker = this.props.choosen;
     return (
       <Map google={this.props.google}
           style={style}
@@ -77,44 +27,58 @@ componentDidUpdate(nextProps, prevProps) {
             lng: -2.157533
           }}
           zoom={12}
-          onClick = { this.onMapClick }
+          onClick = { this.props.onMapClick }
           visible={true}
           parks={this.props.parks}
           changePlace={this.props.onPlaceChange}
+          id={'mapMain'}
+          className={'map'}
+          value={this.props.value}
+          showingInfoWindow={this.props.showingInfoWindow}
+          activeMarker={this.props.activeMarker}
           choosen={this.props.choosen}
+          markers={this.props.children}
+          centerAroundCurrentLocation={true}
           >
 
-          {this.props.parks.map(park => (
-          <Marker
-            key={park.id}
-            choosen={this.props.choosen}
-            title={park.title}
-            id={park.title}
-            position={this.getPosition(park.position)}
-            onClick={this.onMarkerClick}
-            vicinity={this.getAddress(park.vicinity)}
-            className={"marker "+park.title}
-            changePlace={this.props.onPlaceChange}
-            />
-          ))
-        }
+             {this.props.parks.map(park => (
+              <Marker
+                park={park}
+                name={park.title}
+                key={park.id}
+                title={park.title}
+                id={park.title}
+                onClick={this.onMarkerClick}
+                position={this.props.getPosition(park.position)}
+                vicinity={this.props.getAddress(park.vicinity)}
+                className={"marker "+park.title}
+                value={this.props.value}
+                animation={this.props.animation}
+                showingInfoWindow={this.props.showingInfoWindow}
+                activeMarker={this.props.activeMarker}
+                choosen={this.props.choosen}
+                />
+              ))
+            }
 
           <InfoWindow
-            key={this.props.parks.title}
-            choosen={this.props.choosen}
-            marker={this.state.activeMarker}
-            visible={this.state.showingInfoWindow}
+            key={this.props.choosen.title}
+            title={this.props.choosen.title ? this.props.choosen.title : ''}
+            id={this.props.choosen.id ? this.props.choosen.id : ''}
             onOpen={this.windowHasOpened}
             onClose={this.windowHasClosed}
-            title={this.state.selectedPlace.title}
-            id={this.state.selectedPlace.id}
             changePlace={this.props.onPlaceChange}
+            value={this.props.value}
+            marker={this.props.activeMarker}
+            visible={this.props.showingInfoWindow}
+            showingInfoWindow={this.props.showingInfoWindow}
+            choosen={this.props.choosen}
             >
           <div
-            key={this.state.selectedPlace.id}
-            className={this.state.selectedPlace.title+' information'}>
-          <h3 className="info-title">{this.state.selectedPlace.title}</h3>
-          <div className="address">{this.state.selectedPlace.vicinity}</div>
+            key={this.props.choosen.id? this.props.choosen.id : ''}
+            className={this.props.choosen.title ? this.props.choosen.title+' information' : ''}>
+          <h3 className="info-title">{this.props.choosen.title ? this.props.choosen.title : ''}</h3>
+          <div className="address">{this.props.choosen.vicinity ? this.props.choosen.vicinity : ''}</div>
           </div>
           </InfoWindow>
 

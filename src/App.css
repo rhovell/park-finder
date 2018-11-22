@@ -124,6 +124,9 @@ ul.park-list {
 .park-list li:hover {
   color: rgb(30, 240, 1)
 }
+.park-title.selected {
+  color: rgb(30, 240, 1)
+}
 .park-data {
   display: none;
 }

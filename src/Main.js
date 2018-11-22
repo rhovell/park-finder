@@ -8,15 +8,62 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.handlePlaceChange = this.handlePlaceChange.bind(this);
+    // this.onMarkerClick = this.onMarkerClick.bind(this);
+    this.onMapClick = this.onMapClick.bind(this);
+    // this.performMarkerClick = this.performMarkerClick.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
     this.state = {
       hidden: true,
-      selectedPlace: ''
+      showingInfoWindow: false,
+      activeMarker: {},
+      selectedPlace: {},
+      value: '',
+      animation: null
     };
   }
-
-  handlePlaceChange(choosen) {
-    this.setState({selectedPlace: choosen });
+  // called after filter's state value updates
+  // sets mother state 'selectedPlace : filters.state.value'
+  handlePlaceChange(props, marker, event) {
+    // console.log(this.props, marker, event)
+      this.setState({
+        selectedPlace: marker.park,
+        activeMarker: marker,
+        showingInfoWindow: true,
+        value: props.title,
+        animation: 4
+      });
+    console.log('Selected Place is ' + this.state.selectedPlace);
   }
+
+  setPark(park){
+    console.log(park)
+    let marker;
+
+    // this.handlePlaceChange(park, marker, event)
+  }
+
+  onMapClick = (props) => {
+     if (this.state.showingInfoWindow) {
+       this.setState({
+         showingInfoWindow: false,
+         activeMarker: null,
+         animation: null,
+         selectedPlace: null
+       });
+     }
+   }
+
+   getPosition = (position) => {
+       var iterator = position.values();
+       let lat = iterator.next().value;
+       let lang = iterator.next().value;
+       return {lat: lat ,lng: lang};
+   };
+
+   getAddress = (address) => {
+     var formatAddress = address.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '\n');
+     return formatAddress;
+   }
 
   render() {
     const choosen = this.state.selectedPlace;
@@ -36,20 +83,46 @@ class Main extends React.Component {
         <Filter
         parks={this.props.parks}
         onPlaceChange={this.handlePlaceChange}
-        selectedPlace={choosen}
+        // selectedPlace={choosen}
+        // hidden={this.state.hidden}
+        showingInfoWindow={this.state.showingInfoWindow}
+        activeMarker={this.state.activeMarker}
+        choosen={this.state.selectedPlace}
+        value={this.state.value}
+        setValue={this.setValue}
+        animation={this.state.animation}
+        setPark={this.setPark}
+        handlePlaceChange={this.handlePlaceChange}
         />
 
         <Menu
         parks={this.props.parks}
+        performMarkerClick={this.performMarkerClick}
         onPlaceChange={this.handlePlaceChange}
-        selectedPlace={choosen}
+        // selectedPlace={choosen}
+        hidden={this.state.hidden}
+        showingInfoWindow={this.state.showingInfoWindow}
+        activeMarker={this.state.activeMarker}
+        choosen={this.state.selectedPlace}
+        value={this.state.value}
+        animation={this.state.animation}
         />
 
         <div className="map-container">
         <ParkMap
+        className='Map'
+        id={'map'}
         parks={this.props.parks}
         onPlaceChange={this.handlePlaceChange}
-        choosen={choosen}
+        // choosen={choosen}
+        // hidden={this.state.hidden}
+        showingInfoWindow={this.state.showingInfoWindow}
+        activeMarker={this.state.activeMarker}
+        choosen={this.state.selectedPlace}
+        value={this.state.value}
+        animation={this.state.animation}
+        getPosition={this.getPosition}
+        getAddress={this.getAddress}
         />
         </div>
 

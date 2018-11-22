@@ -3,40 +3,68 @@ import React from 'react'
 class Filter extends React.Component {
   constructor(props) {
       super(props);
+      // this.setPark = this.setPark.bind(this);
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
-      this.state = { value: '' };
+      this.state = {
+        value: '',
+         };
     }
+    // on select value change, setState of select 'value : event.target.value'
 
     handleChange(event) {
-      this.setState({ value : event.target.value });
-      console.log('Selected Place is ' + event.target.value);
+      console.log(event.target.value)
+      this.setState({ value: event.target.value })
+
     }
 
     handleSubmit(event) {
-      this.props.onPlaceChange(this.state.value);
+      // console.log(this.props)
       event.preventDefault();
-      // console.log(this.state.value)
+      for(var park of this.props.parks){
+      if(this.state.value === park.title){
+
+        this.props.setPark(park);
+      }
+    }
+    }
+
+    componentDidUpdate(nextProps, prevProps){
+      console.log(nextProps, prevProps, this.props)
     }
 
     render() {
-      const selectedPlace = this.props.selectedPlace;
+      let parkValue = this.props.choosen;
       return (
-        <form className="filter-results" onSubmit={ this.handleSubmit }>
+        <form className="filter-results" onSubmit={this.handleSubmit}>
           <label>
             Filter Parks
             <select
-            value = {this.state.value}
             onChange={ this.handleChange }
+            parks={this.props.parks}
+            id={'submit'}
+            className={'filter'}
+            value = {this.state.value}
+            // handleplacechange={this.props.handlePlaceChange}
+            // choosen={this.props.choosen}
+            // choosenpark={this.state.choosenPark}
+            // showinginfowindow={this.props.showingInfoWindow ? this.props.showingInfoWindow : false}
+            // activemarker={this.props.activeMarker}
+            // animation={this.props.animation}
             >
               {this.props.parks.map(park => (
                 <option
-                key={park.id}
-                value={ park.title }>{park.title}</option>
+                  park={park}
+                  key={park.id}
+                  value={ park.title }
+                  className={'filter option'}
+                  >
+                  {park.title}
+                  </option>
               ))
               }
           </select>
-          <input type="submit" value="Submit" />
+            <input type="submit" value="Submit" />
           </label>
         </form>
       );
