@@ -7,19 +7,11 @@ class GoogleMapsContainer extends React.Component {
     // binding this to event-handler functions
     this.onMarkerClick = this.onMarkerClick.bind(this);
   }
-
+  // handle mark click, sends props to props.onPlaceChange
   onMarkerClick = (props, marker, e) => {
     console.log('selected marker is ' + marker)
     this.props.onPlaceChange(props, marker, e)
   };
-
-  componentDidUpdate(nextProps, prevProps){
-    if(this.props.choosen){
-      let choosen = this.props.choosen;
-      console.log('map choosen place is ' + choosen)
-    }
-
-  }
 
   render() {
     const selectMarker = this.props.choosen;

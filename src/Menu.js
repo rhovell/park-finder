@@ -10,18 +10,16 @@ class Menu extends React.Component {
       hidden: true,
     };
   }
-
+    // show menu
     showMenu = () => {
         this.setState({ hidden: false })
     };
-
+    // hide menu
     hideMenu = () => {
         this.setState({ hidden: true })
     };
-
+    // called on list item click
     handleSelect = (event) => {
-      console.log(this)
-      console.log(event.target.innerHTML)
       for(var park of this.props.parks){
         if(event.target.innerHTML === park.title){
           console.log(park)

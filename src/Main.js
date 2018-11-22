@@ -8,10 +8,7 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.handlePlaceChange = this.handlePlaceChange.bind(this);
-    // this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMapClick = this.onMapClick.bind(this);
-    // this.performMarkerClick = this.performMarkerClick.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
     this.setPark = this.setPark.bind(this);
     this.state = {
       hidden: true,
@@ -22,8 +19,7 @@ class Main extends React.Component {
       animation: null
     };
   }
-  // called after filter's state value updates
-  // sets mother state 'selectedPlace : filters.state.value'
+  // called on marker click
   handlePlaceChange(props, marker, e) {
     console.log(props, marker, e)
       this.setState({
@@ -35,9 +31,8 @@ class Main extends React.Component {
       });
     console.log('App selected park is ' + this.state.selectedPlace);
   }
-
+  // called on filter select submit
   setPark(park){
-    // console.log(park)
     let marker;
     this.setState({
       selectedPlace: park,
@@ -45,14 +40,10 @@ class Main extends React.Component {
       animation: 4,
      })
     console.log('App selected park is ' + this.state.selectedPlace);
-    let root = document.getElementById('root');
-    let map = root.getElementsByClassName('Marker')
-    console.log(map)
-
   }
 
   componentDidUpdate(prevProps, nextProps){
-    // console.log(prevProps, nextProps)
+    console.log(this.state.selectedPlace)
   }
 
   onMapClick = (props) => {
@@ -66,14 +57,14 @@ class Main extends React.Component {
        });
      }
    }
-
+   // format position for google maps
    getPosition = (position) => {
        var iterator = position.values();
        let lat = iterator.next().value;
        let lang = iterator.next().value;
        return {lat: lat ,lng: lang};
    };
-
+   // format address from JSON to user friendly
    getAddress = (address) => {
      var formatAddress = address.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '\n');
      return formatAddress;
@@ -97,8 +88,6 @@ class Main extends React.Component {
         <Filter
         parks={this.props.parks}
         onPlaceChange={this.handlePlaceChange}
-        // selectedPlace={choosen}
-        // hidden={this.state.hidden}
         showingInfoWindow={this.state.showingInfoWindow}
         activeMarker={this.state.activeMarker}
         choosen={this.state.selectedPlace}
@@ -106,7 +95,6 @@ class Main extends React.Component {
         setValue={this.setValue}
         animation={this.state.animation}
         setPark={this.setPark}
-        // handlePlaceChange={this.handlePlaceChange}
         handleChange={this.handleChange}
         />
 
@@ -115,7 +103,6 @@ class Main extends React.Component {
         parks={this.props.parks}
         performMarkerClick={this.performMarkerClick}
         onPlaceChange={this.handlePlaceChange}
-        // selectedPlace={choosen}
         hidden={this.state.hidden}
         showingInfoWindow={this.state.showingInfoWindow}
         activeMarker={this.state.activeMarker}
@@ -125,23 +112,21 @@ class Main extends React.Component {
         />
 
         <div className="map-container">
-        <ParkMap
-        className='Map'
-        id={'map'}
-        parks={this.props.parks}
-        onPlaceChange={this.handlePlaceChange}
-        // choosen={choosen}
-        // hidden={this.state.hidden}
-        showingInfoWindow={this.state.showingInfoWindow}
-        activeMarker={this.state.activeMarker}
-        choosen={this.state.selectedPlace}
-        value={this.state.value}
-        animation={this.state.animation}
-        getPosition={this.getPosition}
-        getAddress={this.getAddress}
-        onMapClick={this.onMapClick}
-        setPark={this.setPark}
-        />
+          <ParkMap
+          className='Map'
+          id={'map'}
+          parks={this.props.parks}
+          onPlaceChange={this.handlePlaceChange}
+          showingInfoWindow={this.state.showingInfoWindow}
+          activeMarker={this.state.activeMarker}
+          choosen={this.state.selectedPlace}
+          value={this.state.value}
+          animation={this.state.animation}
+          getPosition={this.getPosition}
+          getAddress={this.getAddress}
+          onMapClick={this.onMapClick}
+          setPark={this.setPark}
+          />
         </div>
 
 
