@@ -42,11 +42,12 @@ class GoogleMapsContainer extends React.Component {
           centerAroundCurrentLocation={true}
           onReady={this.props.onLoad}
           ZoomControlStyle={1}
-          // markerList={this.props.list}
+          children={this.props.children}
           >
 
              {this.props.parks.map(park => (
               <Marker
+              ref={park.id}
               google={this.props.google}
                 park={park}
                 name={park.title}

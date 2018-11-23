@@ -39,11 +39,12 @@ class Main extends React.Component {
   setPark(park){
     console.log(park)
     console.log(this.state.children)
+    // this.state.google.maps.event.trigger( this.state.children, 'click')
     for(var marker of this.state.children){
       if(park.id === marker.key){
         console.log(marker)
         this.handlePlaceChange(park, marker)
-        marker.props.google.maps.event.trigger(marker, 'click')
+
       }
     }
 
@@ -51,7 +52,7 @@ class Main extends React.Component {
   }
 
   componentDidUpdate(nextProps, prevProps){
-    // console.log(nextProps, prevProps, this.props)
+    console.log(nextProps, prevProps, this.props)
 
   }
   // clear selectedPlace and activeMarker on map click
@@ -80,14 +81,16 @@ class Main extends React.Component {
    }
 
    setGoogle = (props) => {
-     console.log(props.children)
-     if(props.parks && props.children["0"].length > 0){
+     console.log(props)
+     let root = document.getElementById('root')
+     let map = root.getElementsByClassName('map')
+     if(!this.props.ready){
+       return;
 
+     } else {
        this.setState({ google: props.google,
          children: props.children["0"]
        })
-     } else {
-       return;
      }
    }
 
@@ -134,6 +137,7 @@ class Main extends React.Component {
 
 
           <ParkMap
+          // ready={this.props.ready}
           googleState={this.state.google}
           className='map-container'
           id='map-wrapper'
@@ -149,7 +153,7 @@ class Main extends React.Component {
           onMapClick={this.onMapClick}
           setPark={this.setPark}
           onLoad={this.setGoogle}
-          markerList={this.state.children}
+          children={this.state.children}
           // list={this.list}
           />
 
