@@ -42,7 +42,7 @@ class Menu extends React.Component {
       button = <HideButton onClick={this.hideMenu} >Hide List</HideButton>;
       menu = <div className="menu open">
               <div className="park-container">
-                <ul className="park-list">
+                <ul className="park-list" id="listView">
                   {this.props.parks.map(park => (
                       <li
                         key={park.id}

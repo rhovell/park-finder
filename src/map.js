@@ -4,6 +4,9 @@ import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 class GoogleMapsContainer extends React.Component {
   constructor(props) {
     super(props);
+    // this.state = {
+    //   googleState: this.props.google
+    // }
     // binding this to event-handler functions
     this.onMarkerClick = this.onMarkerClick.bind(this);
   }
@@ -11,12 +14,15 @@ class GoogleMapsContainer extends React.Component {
   onMarkerClick = (props, marker, e) => {
     console.log('selected marker is ' + marker)
     this.props.onPlaceChange(props, marker, e)
+    // console.log(this.props.google.maps.event)
   };
 
   render() {
     const selectMarker = this.props.choosen;
     return (
-      <Map google={this.props.google}
+      <Map
+          google={this.props.google}
+          // googleState={this.state.googleState}
           style={style}
           initialCenter={{
             lat: 53.410632,
@@ -33,12 +39,15 @@ class GoogleMapsContainer extends React.Component {
           showingInfoWindow={this.props.showingInfoWindow}
           activeMarker={this.props.activeMarker}
           choosen={this.props.choosen}
-          markers={this.props.children}
           centerAroundCurrentLocation={true}
+          onReady={this.props.onLoad}
+          ZoomControlStyle={1}
+          // markerList={this.props.list}
           >
 
              {this.props.parks.map(park => (
               <Marker
+              google={this.props.google}
                 park={park}
                 name={park.title}
                 key={park.id}

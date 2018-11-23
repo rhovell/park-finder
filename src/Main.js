@@ -11,38 +11,48 @@ class Main extends React.Component {
     this.handlePlaceChange = this.handlePlaceChange.bind(this);
     this.onMapClick = this.onMapClick.bind(this);
     this.setPark = this.setPark.bind(this);
+    this.setGoogle = this.setGoogle.bind(this);
     this.state = {
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
       value: '',
-      animation: null
+      animation: null,
+      google: {},
+      children: []
     };
   }
   // on marker click
   handlePlaceChange(props, marker, e) {
+    console.log(e)
       this.setState({
         selectedPlace: props,
         activeMarker: marker,
         showingInfoWindow: true,
         value: props.title,
-        animation: 4
+        animation: 4,
+        // google: props.google
       });
     console.log('App selected park is ' + this.state.selectedPlace);
   }
   // called on filter select submit and list view selection
   setPark(park){
-    let marker;
-    this.setState({
-      selectedPlace: park,
-      value: park.title,
-      animation: 4,
-     })
+    console.log(park)
+    console.log(this.state.children)
+    for(var marker of this.state.children){
+      if(park.id === marker.key){
+        console.log(marker)
+        this.handlePlaceChange(park, marker)
+        marker.props.google.maps.event.trigger(marker, 'click')
+      }
+    }
+
     console.log('App selected park is ' + this.state.selectedPlace);
   }
 
-  componentDidUpdate(prevProps, nextProps){
-    // console.log(this.state.selectedPlace)
+  componentDidUpdate(nextProps, prevProps){
+    // console.log(nextProps, prevProps, this.props)
+
   }
   // clear selectedPlace and activeMarker on map click
   onMapClick = (props) => {
@@ -67,6 +77,18 @@ class Main extends React.Component {
    getAddress = (address) => {
      var formatAddress = address.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '\n');
      return formatAddress;
+   }
+
+   setGoogle = (props) => {
+     console.log(props.children)
+     if(props.parks && props.children["0"].length > 0){
+
+       this.setState({ google: props.google,
+         children: props.children["0"]
+       })
+     } else {
+       return;
+     }
    }
 
   render() {
@@ -110,10 +132,11 @@ class Main extends React.Component {
         animation={this.state.animation}
         />
 
-        <div className="map-container">
+
           <ParkMap
-          className='Map'
-          id={'map'}
+          googleState={this.state.google}
+          className='map-container'
+          id='map-wrapper'
           parks={this.props.parks}
           onPlaceChange={this.handlePlaceChange}
           showingInfoWindow={this.state.showingInfoWindow}
@@ -125,8 +148,10 @@ class Main extends React.Component {
           getAddress={this.getAddress}
           onMapClick={this.onMapClick}
           setPark={this.setPark}
+          onLoad={this.setGoogle}
+          markerList={this.state.children}
+          // list={this.list}
           />
-        </div>
 
 
       </div>
