@@ -21,12 +21,15 @@ const queryStart = '&q='
 
 export const get = (query) =>
   fetch(`${apiSearch}${position}${queryStart}`+query+`${lang}${appId}${appCode}`, { headers })
-  .then(function(response) {
-    return response.json();
+  .then(res => res.json())
+  .catch((error) => {
+    console.log('Error on park fetch')
   });
+
 // https://places.cit.api.here.com/places/v1/discover/search?at=53.410632%2C-2.157533&q=fog&Accept-Language=en%2Cen-US%3Bq%3D0.5&app_id=9XpHIanLjpmAG8iNneCJ&app_code=VJo1BnHvW0qNp4i_OH5rMw
 export const getAll = () =>
   fetch(`${api}${position}${category}${filter}${type}${content}${lang}${appId}${appCode}`, { headers })
-    .then(function(response) {
-      return response.json();
+    .then(res => res.json())
+    .catch((error) => {
+      console.log('Error on park fetch')
     });
