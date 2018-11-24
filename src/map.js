@@ -40,7 +40,6 @@ class GoogleMapsContainer extends React.Component {
           activeMarker={this.props.activeMarker}
           choosen={this.props.choosen}
           centerAroundCurrentLocation={true}
-          onReady={this.props.onLoad}
           ZoomControlStyle={1}
           children={this.props.children}
           >

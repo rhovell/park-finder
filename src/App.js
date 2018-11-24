@@ -15,7 +15,7 @@ class App extends React.Component {
     this.handlePlaceChange = this.handlePlaceChange.bind(this);
     this.onMapClick = this.onMapClick.bind(this);
     this.setPark = this.setPark.bind(this);
-    this.setGoogle = this.setGoogle.bind(this);
+
     this.state = {
       parks: [],
       google: {},
@@ -54,14 +54,12 @@ class App extends React.Component {
   }
   // on park select from any area of app
   handlePlaceChange(props, marker) {
-    // console.log(e)
       this.setState({
         selectedPlace: props,
         activeMarker: marker,
         showingInfoWindow: true,
         value: props.title,
         animation: 4,
-        // google: props.google
       });
     console.log('App selected park is ' + this.state.selectedPlace);
   }
@@ -97,17 +95,6 @@ class App extends React.Component {
      var formatAddress = address.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '\n');
      return formatAddress;
    }
-   // once this.props.parks is populated, this.props.ready changes to true
-   setGoogle = (props) => {
-     console.log(props)
-     if(this.props.ready === true){
-         this.setState({ google: props.google,
-           children: props.children["0"]
-         })
-     } else {
-       return;
-     }
-   }
 
   render() {
     return (
@@ -140,7 +127,6 @@ class App extends React.Component {
 
           <ParkMap
           onMarkerCreated={this.onMarkerCreated}
-          googleState={this.state.google}
           className='map-container'
           id='map-wrapper'
           parks={this.state.parks}
@@ -153,8 +139,6 @@ class App extends React.Component {
           getPosition={this.getPosition}
           getAddress={this.getAddress}
           onMapClick={this.onMapClick}
-          setPark={this.setPark}
-          onLoad={this.setGoogle}
           />
 
 
