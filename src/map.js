@@ -4,25 +4,25 @@ import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 class GoogleMapsContainer extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   googleState: this.props.google
-    // }
+    this.state = {
+      showingInfoWindow: this.props.showingInfoWindow,
+      activeMarker: this.props.activeMarker,
+      selectedPlace: this.props.choosen,
+      animation: this.props.animation
+    }
     // binding this to event-handler functions
     this.onMarkerClick = this.onMarkerClick.bind(this);
   }
-  // handle mark click, sends props to props.onPlaceChange
+  // handle marker click, sends props to props.onPlaceChange
   onMarkerClick = (props, marker, e) => {
-    console.log('selected marker is ' + marker)
     this.props.onPlaceChange(props, marker, e)
-    // console.log(this.props.google.maps.event)
   };
 
+
   render() {
-    const selectMarker = this.props.choosen;
     return (
       <Map
           google={this.props.google}
-          // googleState={this.state.googleState}
           style={style}
           initialCenter={{
             lat: 53.410632,
@@ -47,8 +47,7 @@ class GoogleMapsContainer extends React.Component {
 
              {this.props.parks.map(park => (
               <Marker
-              ref={park.id}
-              google={this.props.google}
+                google={this.props.google}
                 park={park}
                 name={park.title}
                 key={park.id}
@@ -58,11 +57,8 @@ class GoogleMapsContainer extends React.Component {
                 position={this.props.getPosition(park.position)}
                 vicinity={this.props.getAddress(park.vicinity)}
                 className={"marker "+park.title}
-                value={this.props.value}
-                animation={this.props.animation}
-                showingInfoWindow={this.props.showingInfoWindow}
-                activeMarker={this.props.activeMarker}
                 choosen={this.props.choosen}
+                ref={this.props.onMarkerCreated}
                 />
               ))
             }
@@ -86,7 +82,7 @@ class GoogleMapsContainer extends React.Component {
             key={this.props.choosen.id? this.props.choosen.id : ''}
             className={this.props.choosen.title ? this.props.choosen.title+' information' : ''}>
           <h3 className="info-title">{this.props.choosen.title ? this.props.choosen.title : ''}</h3>
-          <div className="address">{this.props.choosen.vicinity ? this.props.choosen.vicinity : ''}</div>
+          <div className="address">{this.props.choosen.vicinity ? this.props.getAddress(this.props.choosen.vicinity) : ''}</div>
           </div>
           </InfoWindow>
 
