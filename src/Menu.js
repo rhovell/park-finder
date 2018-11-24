@@ -11,6 +11,7 @@ class Menu extends React.Component {
       hidden: true,
     };
   }
+
     // show menu
     showMenu = () => {
         this.setState({ hidden: false })
@@ -19,6 +20,7 @@ class Menu extends React.Component {
     hideMenu = () => {
         this.setState({ hidden: true })
     };
+
     // on list item click, find the matching park and pass it to props.setPark
     handleSelect = (event) => {
       for(var park of this.props.parks){
@@ -27,17 +29,15 @@ class Menu extends React.Component {
           this.props.setPark(park);
         }
       }
-      this.hideMenu()
+      // this.hideMenu()
     }
 
     render() {
     const menuHidden = this.state.hidden;
     let menu;
     let button;
-
     if (menuHidden) {
       button = <ShowButton onClick={this.showMenu} >List View</ShowButton>;
-      menu;
     } else {
       button = <HideButton onClick={this.hideMenu} >Hide List</HideButton>;
       menu = <div className="menu open">
@@ -64,8 +64,8 @@ class Menu extends React.Component {
       <div className="menu-button">{button}</div>
       {menu}
     </div>
-  )
-}
+    )
+  }
 }
 
 function ShowButton(props) {
