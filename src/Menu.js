@@ -8,7 +8,7 @@ class Menu extends React.Component {
     this.hideMenu = this.hideMenu.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.state = {
-      hidden: true,
+      hidden: true
     };
   }
 
@@ -23,13 +23,12 @@ class Menu extends React.Component {
 
     // on list item click, find the matching park and pass it to props.setPark
     handleSelect = (event) => {
-      for(var park of this.props.parks){
-        if(event.target.innerHTML === park.title){
-          console.log(park)
-          this.props.setPark(park);
+      for(var marker of this.props.markers){
+        if(event.target.innerHTML === marker.marker.props.id){
+          this.props.handlePlaceChange(marker.marker.props, marker.marker.marker);
         }
       }
-      // this.hideMenu()
+      this.hideMenu()
     }
 
     render() {
@@ -49,7 +48,7 @@ class Menu extends React.Component {
                         park={park}
                         onClick={this.handleSelect}
                         value={park.title}
-                        className={this.props.selectedPlace === park.title ? "park-title selected" : "park-title"}
+                        className={this.props.activeMarker.name === park.title ? "park-title selected" : "park-title"}
                         >{park.title}
                       </li>
                       ))

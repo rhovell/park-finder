@@ -12,13 +12,12 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     // binding this to event-handler functions
-    this.handlePlaceChange = this.handlePlaceChange.bind(this);
+    this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMapClick = this.onMapClick.bind(this);
-    this.setPark = this.setPark.bind(this);
-
+    this.windowHasClosed = this.windowHasClosed.bind(this);
+    this.windowHasOpened = this.windowHasOpened.bind(this);
     this.state = {
       parks: [],
-      google: {},
       markers: [],
       showingInfoWindow: false,
       activeMarker: {},
@@ -45,6 +44,7 @@ class App extends React.Component {
       })
     })
   }
+
   // creates a list of marker objects on creation of each one
   onMarkerCreated = (marker) => {
     if (marker !== null) {
@@ -53,7 +53,8 @@ class App extends React.Component {
     }
   }
   // on park select from any area of app
-  handlePlaceChange(props, marker) {
+  onMarkerClick(props, marker) {
+    console.log(props, marker)
       this.setState({
         selectedPlace: props,
         activeMarker: marker,
@@ -61,28 +62,28 @@ class App extends React.Component {
         value: props.title,
         animation: 4,
       });
-    console.log('App selected park is ' + this.state.selectedPlace);
   }
-  // called on filter select submit and list view selection
-  setPark(park){
-    for(var point of this.state.markers){
-      if(park.title === point.marker.marker.id){
-        this.handlePlaceChange(park, point.marker.marker)
-      }
-    }
-  }
+
   // clear selectedPlace and activeMarker on map click
   onMapClick = (props) => {
      if (this.state.showingInfoWindow === true) {
        this.setState({
          showingInfoWindow: false,
-         activeMarker: null,
+         activeMarker: {},
          animation: null,
          selectedPlace: {},
          value: ''
        });
      }
    }
+
+   windowHasOpened = (props) => {
+
+   }
+   windowHasClosed = (props) => {
+
+   }
+
    // format position for google maps
    getPosition = (position) => {
        var iterator = position.values();
@@ -109,38 +110,48 @@ class App extends React.Component {
           </div>
         </div>
 
-
         <Filter
         parks={this.state.parks}
         choosen={this.state.selectedPlace}
         setPark={this.setPark}
+        showingInfoWindow={this.state.showingInfoWindow}
+        activeMarker={this.state.activeMarker}
         value={this.state.value}
+        animation={this.state.animation}
+        markers={this.state.markers}
+        handlePlaceChange={this.onMarkerClick}
         />
 
         <Menu
         parks={this.state.parks}
-        choosen={this.state.selectedPlace}
         setPark={this.setPark}
+        showingInfoWindow={this.state.showingInfoWindow}
+        activeMarker={this.state.activeMarker}
+        choosen={this.state.selectedPlace}
         value={this.state.value}
+        animation={this.state.animation}
+        markers={this.state.markers}
+        handlePlaceChange={this.onMarkerClick}
         />
 
-
           <ParkMap
+          markers={this.state.markers}
           onMarkerCreated={this.onMarkerCreated}
           className='map-container'
           id='map-wrapper'
           parks={this.state.parks}
-          onPlaceChange={this.handlePlaceChange}
+          onPlaceChange={this.onMarkerClick}
           showingInfoWindow={this.state.showingInfoWindow}
           activeMarker={this.state.activeMarker}
-          choosen={this.state.selectedPlace}
+          selectedPlace={this.state.selectedPlace}
           value={this.state.value}
           animation={this.state.animation}
           getPosition={this.getPosition}
           getAddress={this.getAddress}
           onMapClick={this.onMapClick}
+          windowHasOpened={this.windowHasOpened}
+          windowHasClosed={this.windowHasClosed}
           />
-
 
       </div>
   )

@@ -17,9 +17,9 @@ class Filter extends React.Component {
     // on select submit, find the matching park and pass it to props.setPark
     handleSubmit(event) {
       event.preventDefault();
-      for(var park of this.props.parks){
-        if(this.state.value === park.title){
-          this.props.setPark(park);
+      for(var marker of this.props.markers){
+        if(this.state.value === marker.marker.props.id){
+          this.props.handlePlaceChange(marker.marker.props, marker.marker.marker);
         }
       }
     }

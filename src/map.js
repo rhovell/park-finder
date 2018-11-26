@@ -4,12 +4,6 @@ import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 class GoogleMapsContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      showingInfoWindow: this.props.showingInfoWindow,
-      activeMarker: this.props.activeMarker,
-      selectedPlace: this.props.choosen,
-      animation: this.props.animation
-    }
     // binding this to event-handler functions
     this.onMarkerClick = this.onMarkerClick.bind(this);
   }
@@ -17,7 +11,6 @@ class GoogleMapsContainer extends React.Component {
   onMarkerClick = (props, marker, e) => {
     this.props.onPlaceChange(props, marker, e)
   };
-
 
   render() {
     return (
@@ -38,7 +31,7 @@ class GoogleMapsContainer extends React.Component {
           value={this.props.value}
           showingInfoWindow={this.props.showingInfoWindow}
           activeMarker={this.props.activeMarker}
-          choosen={this.props.choosen}
+          animation={this.props.animation}
           centerAroundCurrentLocation={true}
           ZoomControlStyle={1}
           children={this.props.children}
@@ -46,42 +39,42 @@ class GoogleMapsContainer extends React.Component {
 
              {this.props.parks.map(park => (
               <Marker
+                value={this.props.value}
+                showingInfoWindow={this.props.showingInfoWindow}
+                activeMarker={this.props.activeMarker}
+                centerAroundCurrentLocation={true}
+                animation={this.props.animation}
                 google={this.props.google}
                 park={park}
                 name={park.title}
                 key={park.id}
-                title={park.title}
-                id={park.title}
                 onClick={this.onMarkerClick}
                 position={this.props.getPosition(park.position)}
                 vicinity={this.props.getAddress(park.vicinity)}
                 className={"marker "+park.title}
-                choosen={this.props.choosen}
                 ref={this.props.onMarkerCreated}
+                id={park.title}
                 />
               ))
             }
-
           <InfoWindow
-            key={this.props.choosen.title}
-            title={this.props.choosen.title}
-            id={this.props.choosen.id}
-            // position={this.props.getPosition(this.props.choosen.position)}
-            // vicinity={this.props.getAddress(this.props.choosen.vicinity)}
-            onOpen={this.windowHasOpened}
-            onClose={this.windowHasClosed}
-            changePlace={this.props.onPlaceChange}
+            key={this.props.activeMarker.title ? this.props.activeMarker.title : ''}
+            id={this.props.activeMarker.title ? this.props.activeMarker.id : ''}
+            title={this.props.activeMarker.title ? this.props.activeMarker.title : ''}
+            // changePlace={this.props.onPlaceChange}
             value={this.props.value}
             marker={this.props.activeMarker}
             visible={this.props.showingInfoWindow}
-            showingInfoWindow={this.props.showingInfoWindow}
-            choosen={this.props.choosen}
+            centerAroundCurrentLocation={true}
+            animation={this.props.animation}
+            onOpen={this.props.windowHasOpened}
+            onClose={this.props.windowHasClosed}
             >
           <div
-            key={this.props.choosen.id? this.props.choosen.id : ''}
-            className={this.props.choosen.title ? this.props.choosen.title+' information' : ''}>
-          <h3 className="info-title">{this.props.choosen.title ? this.props.choosen.title : ''}</h3>
-          <div className="address">{this.props.choosen.vicinity ? this.props.getAddress(this.props.choosen.vicinity) : ''}</div>
+            key={this.props.activeMarker.name ? this.props.activeMarker.name +'Info' : ''}
+            className={this.props.activeMarker.name ? this.props.activeMarker.name+' information' : ''}>
+          <h3 className="info-title">{this.props.activeMarker.name ? this.props.activeMarker.name : ''}</h3>
+          <div className="address">{this.props.activeMarker.name ? this.props.getAddress(this.props.activeMarker.vicinity) : ''}</div>
           </div>
           </InfoWindow>
 
@@ -96,7 +89,7 @@ export default GoogleApiWrapper({
 
 const style = {
   width: '90vw',
-  height: '90vh',
+  height: '75vh',
   'marginTop': '1em',
   'marginLeft': 'auto',
   'marginRight': 'auto'
