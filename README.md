@@ -2,8 +2,8 @@
 
 ## Contents
 
-1. App Concepts(app-concepts)
-2. Installation Instructions(installation-instructions)
+1. [App Concepts](app-concepts)
+2. [Installation Instructions](installation-instructions)
 
 
 #### App Concepts
