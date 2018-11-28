@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
+import React from 'react'
 import './App.css'
 import * as Parks from './parks'
 import ParkMap from './map'
@@ -48,7 +47,6 @@ class App extends React.Component {
   // creates a list of marker objects on creation of each one
   onMarkerCreated = (marker) => {
     if (marker !== null) {
-      let point = marker.marker;
       this.state.markers.push({ marker });
     }
   }
@@ -100,39 +98,37 @@ class App extends React.Component {
   render() {
     return (
       <div className="park-map-app">
-        <div className="app-title">
-          <Link to="/">
-          <h1>Park Finder</h1>
-          </Link>
-          <div className="logo-container">
-          <Link to="/">
-          </Link>
+        <div className="park-selection">
+          <div className="app-title">
+            <Link to="/">
+            <h1>Park Finder</h1>
+            </Link>
           </div>
+
+          <Filter
+          parks={this.state.parks}
+          choosen={this.state.selectedPlace}
+          setPark={this.setPark}
+          showingInfoWindow={this.state.showingInfoWindow}
+          activeMarker={this.state.activeMarker}
+          value={this.state.value}
+          animation={this.state.animation}
+          markers={this.state.markers}
+          handlePlaceChange={this.onMarkerClick}
+          />
+
+          <Menu
+          parks={this.state.parks}
+          setPark={this.setPark}
+          showingInfoWindow={this.state.showingInfoWindow}
+          activeMarker={this.state.activeMarker}
+          choosen={this.state.selectedPlace}
+          value={this.state.value}
+          animation={this.state.animation}
+          markers={this.state.markers}
+          handlePlaceChange={this.onMarkerClick}
+          />
         </div>
-
-        <Filter
-        parks={this.state.parks}
-        choosen={this.state.selectedPlace}
-        setPark={this.setPark}
-        showingInfoWindow={this.state.showingInfoWindow}
-        activeMarker={this.state.activeMarker}
-        value={this.state.value}
-        animation={this.state.animation}
-        markers={this.state.markers}
-        handlePlaceChange={this.onMarkerClick}
-        />
-
-        <Menu
-        parks={this.state.parks}
-        setPark={this.setPark}
-        showingInfoWindow={this.state.showingInfoWindow}
-        activeMarker={this.state.activeMarker}
-        choosen={this.state.selectedPlace}
-        value={this.state.value}
-        animation={this.state.animation}
-        markers={this.state.markers}
-        handlePlaceChange={this.onMarkerClick}
-        />
 
           <ParkMap
           markers={this.state.markers}

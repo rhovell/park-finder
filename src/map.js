@@ -88,9 +88,10 @@ export default GoogleApiWrapper({
 })(GoogleMapsContainer);
 
 const style = {
-  width: '90vw',
-  height: '75vh',
-  'marginTop': '1em',
+  width: '95vw',
+  height: '85vh',
+  top: '5%',
+  'marginTop': '2em',
   'marginLeft': 'auto',
   'marginRight': 'auto'
 };

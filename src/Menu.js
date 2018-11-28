@@ -21,7 +21,7 @@ class Menu extends React.Component {
         this.setState({ hidden: true })
     };
 
-    // on list item click, find the matching park and pass it to props.setPark
+    // on list item click, find the matching marker and pass it to props.handlePlaceChange
     handleSelect = (event) => {
       for(var marker of this.props.markers){
         if(event.target.innerHTML === marker.marker.props.id){

@@ -13,8 +13,9 @@ class Filter extends React.Component {
     // on select value change, setState of select 'value : event.target.value'
     handleChange(event) {
       this.setState({ value: event.target.value })
+
     }
-    // on select submit, find the matching park and pass it to props.setPark
+    // on select submit, find the matching marker and pass it to props.handlePlaceChange
     handleSubmit(event) {
       event.preventDefault();
       for(var marker of this.props.markers){
