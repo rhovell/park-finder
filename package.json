@@ -1,4 +1,7 @@
 {
+  "homepage": "https://rhovell.github.io/park-finder",
+  "deploy": "npm run build && gh-pages -d build",
+  "build": "react-scripts build",
   "dependencies": {
     "create-react-app": "^1.5.2",
     "google-map-react": "^1.0.9",
@@ -16,6 +19,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   }
 }
